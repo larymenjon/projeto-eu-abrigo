@@ -1,0 +1,142 @@
+﻿<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cadastro de Animal | Projeto Eu Abrigo</title>
+  <link rel="icon" href="img/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-row">
+      <a class="brand" href="index.html">
+        <img src="img/logo.png" alt="Projeto Eu Abrigo" />
+      </a>
+      <nav class="site-nav">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="registro-adotante.html">Registro do Adotante</a>
+        <a class="nav-link" href="agendar-visita.html">Agendar Visita</a>
+        <a class="nav-link" href="cadastro-animal.html">Cadastro de Animal</a>
+        <a class="nav-link" href="busca-animais.html">Busca de Animais</a>
+        <a class="nav-link" href="sobre-nos.html">Sobre Nós</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section form-hero">
+      <div class="container">
+        <h1 class="section-title">Cadastrar novo animal</h1>
+        <p class="form-subtitle">Preencha os dados do animal</p>
+
+        <form id="animalForm" class="form-card animal-form" novalidate>
+          <div class="animal-grid">
+            <div class="animal-left">
+              <label>
+                Nome *
+                <input type="text" name="nome" placeholder="Ex.: Mel" required />
+              </label>
+              <label>
+                Tipo *
+                <select name="tipo" required>
+                  <option value="">Não selecionado</option>
+                  <option value="cachorro">Cachorro</option>
+                  <option value="gato">Gato</option>
+                </select>
+              </label>
+              <label>
+                Raça *
+                <input type="text" name="raca" placeholder="Ex.: SRD" required />
+              </label>
+              <label>
+                Idade *
+                <select name="idade" required>
+                  <option value="">Não selecionado</option>
+                  <option value="filhote">Filhote</option>
+                  <option value="adulto">Adulto</option>
+                  <option value="senior">Sênior</option>
+                </select>
+              </label>
+              <label>
+                Gênero *
+                <select name="genero" required>
+                  <option value="">Não selecionado</option>
+                  <option value="macho">Macho</option>
+                  <option value="femea">Fêmea</option>
+                </select>
+              </label>
+              <label>
+                Cidade *
+                <input type="text" name="cidade" placeholder="Ex.: Joinville" required />
+              </label>
+              <label>
+                Estado *  
+                <input type="text" name="estado" placeholder="Ex.: SC" required />
+              </label>
+              <label>
+                Local de resgate *
+                <input type="text" name="localResgate" placeholder="Ex.: Rua das Flores, 123" required />
+              </label>
+              <label>
+                Data do resgate *
+                <input type="date" name="dataResgate" required />
+              </label>
+              <label>
+                Porte *
+                <select name="porte" required>
+                  <option value="">Não selecionado</option>
+                  <option value="pequeno">Pequeno</option>
+                  <option value="medio">Médio</option>
+                  <option value="grande">Grande</option>
+                </select>
+              </label>
+              <label>
+                Vacinado *
+                <select name="vacinacao" required>  
+                  <option value="">Não selecionado</option>
+                  <option value="sim">Sim</option>
+                  <option value="nao">Não</option>
+                </select>             
+              </label>
+            </div>
+            <div class="animal-right">
+              <label>
+                Descrição *
+                <textarea name="descricao" rows="8" placeholder="Conte um pouco sobre o animal..." required></textarea>
+              </label>
+              <label class="file-row">
+                Fotos
+                <input type="file" name="foto" accept="image/*" />
+              </label>
+              <div class="form-actions">
+                <button class="btn btn-orange" type="submit">Salvar</button>
+                <p class="form-feedback" id="animalFeedback" role="status" aria-live="polite"></p>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="cta-row">
+          <a class="btn btn-teal" href="cadastro-animal.html">Cadastrar Animal</a>
+          <a class="btn btn-teal" href="sobre-nos.html">Sobre Nós</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Desenvolvido por Laryssa Aguiar Menjon</p>
+      <p>Projeto abrigo ©2026</p>
+    </div>
+  </footer>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
+
+

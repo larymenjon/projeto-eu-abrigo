@@ -1,0 +1,77 @@
+﻿<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agendamento Confirmado | Projeto Eu Abrigo</title>
+  <link rel="icon" href="img/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-row">
+      <a class="brand" href="index.html">
+        <img src="img/logo.png" alt="Projeto Eu Abrigo" />
+      </a>
+      <nav class="site-nav">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="registro-adotante.html">Registro do Adotante</a>
+        <a class="nav-link" href="agendar-visita.html">Agendar Visita</a>
+        <a class="nav-link" href="cadastro-animal.html">Cadastro de Animal</a>
+        <a class="nav-link" href="busca-animais.html">Busca de Animais</a>
+        <a class="nav-link" href="sobre-nos.html">Sobre Nós</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section confirm-hero">
+      <div class="container confirm-content">
+        
+        <p id="confirmInfo">Agendamento Confirmado.</p>
+        <img
+          class="confirm-image"
+          src="img/Buscadeanimais/agendamento%20confirmado.png"
+          alt="Agendamento confirmado"
+        />
+        <a class="btn btn-teal" href="busca-animais.html">Veja quem precisa</a>
+        <div class="visit-actions" id="confirmWhats" hidden>
+          <a class="btn btn-teal" id="confirmWhatsUser" target="_blank" rel="noopener">WhatsApp do visitante</a>
+          <a class="btn btn-outline" id="confirmWhatsAdmin" target="_blank" rel="noopener">WhatsApp do administrador</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Desenvolvido por Laryssa Aguiar Menjon</p>
+      <p>Projeto abrigo ©2026</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const data = JSON.parse(localStorage.getItem('ultimaVisita') || 'null');
+      const wrap = document.getElementById('confirmWhats');
+      const userBtn = document.getElementById('confirmWhatsUser');
+      const adminBtn = document.getElementById('confirmWhatsAdmin');
+      const info = document.getElementById('confirmInfo');
+
+      if (data && wrap) {
+        if (userBtn && data.userLink) userBtn.href = data.userLink;
+        if (adminBtn && data.adminLink) adminBtn.href = data.adminLink;
+        wrap.hidden = false;
+      }
+
+      if (data && info && data.animal && data.when) {
+        info.textContent = `Agendamento confirmado para ${data.animal} em ${data.when}.`;
+      }
+    })();
+  </script>
+  <script type="module" src="script.js"></script>
+</body>
+</html>

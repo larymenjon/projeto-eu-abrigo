@@ -1,0 +1,180 @@
+﻿<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Busca de Animais | Projeto Eu Abrigo</title>
+  <link rel="icon" href="img/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-row">
+      <a class="brand" href="index.html">
+        <img src="img/logo.png" alt="Projeto Eu Abrigo" />
+      </a>
+      <nav class="site-nav">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="registro-adotante.html">Registro do Adotante</a>
+        <a class="nav-link" href="agendar-visita.html">Agendar Visita</a>
+        <a class="nav-link" href="cadastro-animal.html">Cadastro de Animal</a>
+        <a class="nav-link" href="busca-animais.html">Busca de Animais</a>
+        <a class="nav-link" href="sobre-nos.html">Sobre Nós</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero search-hero">
+      <div class="container">
+        <h1 class="section-title">Veja está buscando um novo lar...</h1>
+        <div class="search-bar">
+          <div class="search-input">
+            <span class="search-icon">🔍</span>
+            <input id="petSearch" type="text" placeholder="Buscar novo pet..." />
+          </div>
+          <button class="btn btn-orange" id="searchBtn" type="button">Buscar</button>
+        </div>
+        <div class="filter-row">
+          <select id="filterLocal">
+            <option value="">Local</option>
+            <option value="joinville">Joinville/SC</option>
+            <option value="florianopolis">Florianópolis/SC</option>
+            <option value="cadastro">Cadastro online</option>
+          </select>
+          <select id="filterGenero">
+            <option value="">Gênero</option>
+            <option value="macho">Macho</option>
+            <option value="femea">Fêmea</option>
+          </select>
+          <select id="filterEspecie">
+            <option value="">Espécie</option>
+            <option value="cachorro">Cachorro</option>
+            <option value="gato">Gato</option>
+          </select>
+          <select id="filterIdade">
+            <option value="">Idade</option>
+            <option value="filhote">Filhote</option>
+            <option value="adulto">Adulto</option>
+            <option value="senior">Sênior</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section class="section search-results">
+            <div class="container cards-grid">
+        <a class="pet-link" href="animal.html?nome=Caramelo">
+          <article class="pet-card" data-local="joinville" data-genero="macho" data-especie="cachorro" data-idade="adulto" data-nome="Caramelo" data-raca="Labrador" data-descricao="Caramelo é um cão dócil, brincalhão e muito sociável." data-imagem="img/buscadeanimais/Rectangle 1.png">
+            <img src="img/buscadeanimais/Rectangle 1.png" alt="Caramelo" />
+            <h3>Caramelo - Adulto</h3>
+            <p>Labrador</p>
+            <p>Canil de Joinville/SC</p>
+          </article>
+        </a>
+        <a class="pet-link" href="animal.html?nome=Cappuccino">
+          <article class="pet-card" data-local="joinville" data-genero="femea" data-especie="cachorro" data-idade="filhote" data-nome="Cappuccino" data-raca="SRD" data-descricao="Cappuccino é curioso, carinhoso e adora brincar." data-imagem="img/buscadeanimais/Rectangle 2 (3).png">
+            <img src="img/buscadeanimais/Rectangle 2 (3).png" alt="Cappuccino" />
+            <h3>Cappuccino - Filhote</h3>
+            <p>SRD (Sem raça definida)</p>
+            <p>Canil de Joinville/SC</p>
+          </article>
+        </a>
+        <a class="pet-link" href="animal.html?nome=Estudante">
+          <article class="pet-card" data-local="joinville" data-genero="macho" data-especie="cachorro" data-idade="filhote" data-nome="Estudante" data-raca="SRD" data-descricao="Estudante é alegre, inteligente e cheio de energia." data-imagem="img/buscadeanimais/Rectangle 3.png">
+            <img src="img/buscadeanimais/Rectangle 3.png" alt="Estudante" />
+            <h3>Estudante - Filhote</h3>
+            <p>SRD (Sem raça definida)</p>
+            <p>Canil de Joinville/SC</p>
+          </article>
+        </a>
+        <a class="pet-link" href="animal.html?nome=Bidu">
+          <article class="pet-card" data-local="joinville" data-genero="macho" data-especie="cachorro" data-idade="adulto" data-nome="Bidu" data-raca="SRD" data-descricao="Bidu é companheiro, calmo e muito fiel." data-imagem="img/buscadeanimais/Rectangle 22.png">
+            <img src="img/buscadeanimais/Rectangle 22.png" alt="Bidu" />
+            <h3>Bidu - Adulto</h3>
+            <p>SRD (Sem raça definida)</p>
+            <p>Canil de Joinville/SC</p>
+          </article>
+        </a>
+        <a class="pet-link" href="animal.html?nome=Bomdog">
+          <article class="pet-card" data-local="joinville" data-genero="macho" data-especie="cachorro" data-idade="adulto" data-nome="Bomdog" data-raca="Bulldog" data-descricao="Bomdog é tranquilo, adora carinho e sonecas." data-imagem="img/buscadeanimais/Rectangle 2.png">
+            <img src="img/buscadeanimais/Rectangle 2.png" alt="Bomdog" />
+            <h3>Bomdog - Adulto</h3>
+            <p>Bulldog</p>
+            <p>Canil de Joinville/SC</p>
+          </article>
+        </a>
+        <a class="pet-link" href="animal.html?nome=Lady">
+          <article class="pet-card" data-local="joinville" data-genero="femea" data-especie="cachorro" data-idade="adulto" data-nome="Lady" data-raca="SRD" data-descricao="Lady é doce, obediente e adora companhia." data-imagem="img/buscadeanimais/Rectangle 1 (1).png">
+            <img src="img/buscadeanimais/Rectangle 1 (1).png" alt="Lady" />
+            <h3>Lady - Adulta</h3>
+            <p>SRD (Sem raça definida)</p>
+            <p>Canil de Joinville/SC</p>
+          </article>
+        </a>
+        <a class="pet-link" href="animal.html?nome=Biscoito">
+          <article class="pet-card" data-local="joinville" data-genero="macho" data-especie="cachorro" data-idade="adulto" data-nome="Biscoito" data-raca="SRD" data-descricao="Biscoito é carinhoso e ama passeios." data-imagem="img/buscadeanimais/Rectangle 2 (1).png">
+            <img src="img/buscadeanimais/Rectangle 2 (1).png" alt="Biscoito" />
+            <h3>Biscoito - Adulto</h3>
+            <p>SRD (Sem raça definida)</p>
+            <p>Canil de Joinville/SC</p>
+          </article>
+        </a>
+        <a class="pet-link" href="animal.html?nome=Filosofo">
+          <article class="pet-card" data-local="joinville" data-genero="macho" data-especie="cachorro" data-idade="adulto" data-nome="Filósofo" data-raca="Pug" data-descricao="Filósofo é divertido, ama atenção e fotos." data-imagem="img/buscadeanimais/Rectangle 3 (2).png">
+            <img src="img/buscadeanimais/Rectangle 3 (2).png" alt="Filósofo" />
+            <h3>Filósofo - Adulto</h3>
+            <p>Pug</p>
+            <p>Canil de Joinville/SC</p>
+          </article>
+        </a>
+        <a class="pet-link" href="animal.html?nome=Mel">
+          <article class="pet-card" data-local="joinville" data-genero="femea" data-especie="gato" data-idade="adulto" data-nome="Mel" data-raca="SRD" data-descricao="Mel é delicada, ama colo e tranquilidade." data-imagem="img/buscadeanimais/Rectangle 1 (2).png">
+            <img src="img/buscadeanimais/Rectangle 1 (2).png" alt="Mel" />
+            <h3>Mel - Adulta</h3>
+            <p>SRD (Sem raça definida)</p>
+            <p>Canil de Joinville/SC</p>
+          </article>
+        </a>
+        <a class="pet-link" href="animal.html?nome=Biscoito">
+          <article class="pet-card" data-local="joinville" data-genero="macho" data-especie="gato" data-idade="filhote" data-nome="Biscoito" data-raca="SRD" data-descricao="Biscoito é um filhote curioso e brincalhão." data-imagem="img/buscadeanimais/Rectangle 2 (2).png">
+            <img src="img/buscadeanimais/Rectangle 2 (2).png" alt="Biscoito" />
+            <h3>Biscoito - Filhote</h3>
+            <p>SRD (Sem raça definida)</p>
+            <p>Canil de Joinville/SC</p>
+          </article>
+        </a>
+        <a class="pet-link" href="animal.html?nome=Garfield">
+          <article class="pet-card" data-local="joinville" data-genero="macho" data-especie="gato" data-idade="adulto" data-nome="Garfield" data-raca="SRD" data-descricao="Garfield é tranquilo, ama cochilos e carinho." data-imagem="img/buscadeanimais/Rectangle 3 (3).png">
+            <img src="img/buscadeanimais/Rectangle 3 (3).png" alt="Garfield" />
+            <h3>Garfield - Adulto</h3>
+            <p>SRD (Sem raça definida)</p>
+            <p>Canil de Joinville/SC</p>
+          </article>
+        </a>
+      </div>
+      <div class="container no-results" id="noResults" aria-live="polite">
+        Nenhum pet encontrado com esses filtros.
+      </div>
+      <div class="container pagination">
+        <button class="page-dot is-active">1</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Desenvolvido por Laryssa Aguiar Menjon</p>
+      <p>Projeto abrigo ©2026</p>
+    </div>
+  </footer>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
+
+
+

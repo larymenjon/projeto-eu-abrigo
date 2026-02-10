@@ -1,0 +1,115 @@
+﻿<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agendar Visita | Projeto Eu Abrigo</title>
+  <link rel="icon" href="img/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-row">
+      <a class="brand" href="index.html">
+        <img src="img/logo.png" alt="Projeto Eu Abrigo" />
+      </a>
+      <nav class="site-nav">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="registro-adotante.html">Registro do Adotante</a>
+        <a class="nav-link" href="agendar-visita.html">Agendar Visita</a>
+        <a class="nav-link" href="cadastro-animal.html">Cadastro de Animal</a>
+        <a class="nav-link" href="busca-animais.html">Busca de Animais</a>
+        <a class="nav-link" href="sobre-nos.html">Sobre Nós</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section form-hero">
+      <div class="container">
+        <div class="visit-grid">
+          <div class="visit-form">
+            <h1>Escolha uma data e horário</h1>
+            <form id="visitaForm" class="form-card visit-card" novalidate>
+              <label>
+                Animal *
+                <select name="animal" id="visitaAnimal" required>
+                  <option value="">Selecione</option>
+                </select>
+              </label>
+              <label>
+                Nome completo *
+                <input type="text" name="nome" id="visitaNome" placeholder="Ex.: João da Silva" required />
+              </label>
+              <label>
+                Data *
+                <input type="date" name="data" required />
+              </label>
+              <label>
+                Horário *
+                <input type="time" name="horario" required />
+              </label>
+              <label>
+                Celular/WhatsApp *
+                <input type="tel" name="celular" placeholder="Ex.: 47991133591" required />
+              </label>
+              <label class="checkbox-row">
+                <input type="checkbox" name="confirmo" required />
+                Confirmo que me comprometo a visitar o animal.
+              </label>
+              <div class="visit-profile" id="visitProfile" hidden>
+                <h4>Ficha do adotante</h4>
+                <p id="visitProfileText"></p>
+              </div>
+              <button class="btn btn-orange" type="submit">Agendar</button>
+              <p class="form-feedback" id="visitaFeedback" role="status" aria-live="polite"></p>
+              <div class="visit-actions" id="whatsappActions" hidden>
+                <a class="btn btn-teal" id="whatsUser" target="_blank" rel="noopener">WhatsApp do visitante</a>
+                <a class="btn btn-outline" id="whatsAdmin" target="_blank" rel="noopener">WhatsApp do administrador</a>
+              </div>
+            </form>
+          </div>
+          <div class="visit-info">
+            <h2>Dados do abrigo</h2>
+            <div class="info-grid">
+              <div>
+                <h3>Dados</h3>
+                <ul>
+                  <li><strong>Nome</strong><br />Eu Abrigo - O lugar de encontro com seu melhor amigo(a)!</li>
+                  <li><strong>Endereço</strong><br />Joinville, SC - Brasil</li>
+                </ul>
+              </div>
+              <div>
+                <h3>Redes sociais</h3>
+                <ul>
+                  <li><strong>Site</strong><br />www.euabrigo.com.br (fictício)</li>
+                  <li><strong>Facebook</strong><br />/Eu Abrigo (fictício)</li>
+                  <li><strong>Instagram</strong><br />@euabrigo(fictício)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cta-row">
+          <a class="btn btn-teal" href="cadastro-animal.html">Cadastrar Animal</a>
+          <a class="btn btn-teal" href="sobre-nos.html">Sobre Nós</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Desenvolvido por Laryssa Aguiar Menjon</p>
+      <p>Projeto abrigo ©2026</p>
+    </div>
+  </footer>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
+
