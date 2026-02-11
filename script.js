@@ -44,6 +44,26 @@ const animalDesc = document.querySelector("#animalDesc");
 const animalImage = document.querySelector("#animalImage");
 const animalThumbs = document.querySelector("#animalThumbs");
 
+function ensureAmbientBackground() {
+  if (!document.body) return;
+  if (document.querySelector(".home-ambient")) return;
+
+  const ambient = document.createElement("div");
+  ambient.className = "home-ambient";
+  ambient.setAttribute("aria-hidden", "true");
+  ambient.innerHTML = `
+    <span class="ambient-blob blob-a"></span>
+    <span class="ambient-blob blob-b"></span>
+    <span class="ambient-blob blob-c"></span>
+    <span class="ambient-paw paw-a"></span>
+    <span class="ambient-paw paw-b"></span>
+    <span class="ambient-paw paw-c"></span>
+    <span class="ambient-paw paw-d"></span>
+  `;
+
+  document.body.prepend(ambient);
+}
+
 function normalizeText(value) {
   return value
     .toLowerCase()
@@ -210,8 +230,8 @@ function renderLocalAnimais() {
     const foto =
       animal.foto ||
       (especie === "gato"
-        ? "img/buscadeanimais/Rectangle 3 (3).png"
-        : "img/buscadeanimais/Rectangle 1.png");
+        ? "img/Rectangle 3 (3).png"
+        : "img/Rectangle 1.png");
 
     const link = document.createElement("a");
     link.className = "pet-link";
@@ -235,6 +255,7 @@ function renderLocalAnimais() {
       <h3>${nome} - ${capitalize(idade)}</h3>
       <p>${raca}</p>
       <p>Cadastro online</p>
+      <span class="btn btn-teal pet-more-btn">Saber mais</span>
     `;
 
     link.appendChild(card);
@@ -281,7 +302,7 @@ const staticAnimals = [
     descricao: "Caramelo é um cão dócil, brincalhão e muito sociável.",
     idade: "adulto",
     especie: "cachorro",
-    imagem: "img/buscadeanimais/Rectangle 1.png"
+    imagem: "img/Rectangle 1.png"
   },
   {
     nome: "Cappuccino",
@@ -289,7 +310,7 @@ const staticAnimals = [
     descricao: "Cappuccino é curioso, carinhoso e adora brincar.",
     idade: "filhote",
     especie: "cachorro",
-    imagem: "img/buscadeanimais/Rectangle 2 (3).png"
+    imagem: "img/Rectangle 2 (3).png"
   },
   {
     nome: "Estudante",
@@ -297,7 +318,7 @@ const staticAnimals = [
     descricao: "Estudante é alegre, inteligente e cheio de energia.",
     idade: "filhote",
     especie: "cachorro",
-    imagem: "img/buscadeanimais/Rectangle 3.png"
+    imagem: "img/Rectangle 3.png"
   },
   {
     nome: "Bidu",
@@ -305,7 +326,7 @@ const staticAnimals = [
     descricao: "Bidu é companheiro, calmo e muito fiel.",
     idade: "adulto",
     especie: "cachorro",
-    imagem: "img/buscadeanimais/Rectangle 22.png"
+    imagem: "img/Rectangle 22.png"
   },
   {
     nome: "Bomdog",
@@ -313,7 +334,7 @@ const staticAnimals = [
     descricao: "Bomdog é tranquilo, adora carinho e sonecas.",
     idade: "adulto",
     especie: "cachorro",
-    imagem: "img/buscadeanimais/Rectangle 2.png"
+    imagem: "img/Rectangle 2.png"
   },
   {
     nome: "Lady",
@@ -321,7 +342,7 @@ const staticAnimals = [
     descricao: "Lady é doce, obediente e adora companhia.",
     idade: "adulto",
     especie: "cachorro",
-    imagem: "img/buscadeanimais/Rectangle 1 (1).png"
+    imagem: "img/Rectangle 1 (1).png"
   },
   {
     nome: "Mel",
@@ -329,7 +350,7 @@ const staticAnimals = [
     descricao: "Mel é delicada, ama colo e tranquilidade.",
     idade: "adulto",
     especie: "gato",
-    imagem: "img/buscadeanimais/Rectangle 1 (2).png"
+    imagem: "img/Rectangle 1 (2).png"
   },
   {
     nome: "Biscoito",
@@ -337,7 +358,7 @@ const staticAnimals = [
     descricao: "Biscoito é um filhote curioso e brincalhão.",
     idade: "filhote",
     especie: "gato",
-    imagem: "img/buscadeanimais/Rectangle 2 (2).png"
+    imagem: "img/Rectangle 2 (2).png"
   },
   {
     nome: "Filósofo",
@@ -345,7 +366,7 @@ const staticAnimals = [
     descricao: "Filósofo é divertido, ama atenção e fotos.",
     idade: "adulto",
     especie: "cachorro",
-    imagem: "img/buscadeanimais/Rectangle 3 (2).png"
+    imagem: "img/Rectangle 3 (2).png"
   },
   {
     nome: "Garfield",
@@ -353,7 +374,7 @@ const staticAnimals = [
     descricao: "Garfield é tranquilo, ama cochilos e carinho.",
     idade: "adulto",
     especie: "gato",
-    imagem: "img/buscadeanimais/Rectangle 3 (3).png"
+    imagem: "img/Rectangle 3 (3).png"
   }
 ];
 
@@ -375,8 +396,8 @@ function findAnimalByName(name) {
       imagem:
         localMatch.foto ||
         (localMatch.tipo === "gato"
-          ? "img/buscadeanimais/Rectangle 3 (3).png"
-          : "img/buscadeanimais/Rectangle 1.png")
+          ? "img/Rectangle 3 (3).png"
+          : "img/Rectangle 1.png")
     };
   }
 
@@ -594,4 +615,5 @@ renderCadastros();
 renderLocalAnimais();
 attachCardHandlers();
 renderAnimalDetail();
+ensureAmbientBackground();
 
