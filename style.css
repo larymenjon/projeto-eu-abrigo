@@ -15,6 +15,10 @@
   padding: 0;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 body {
   font-family: "Montserrat", sans-serif;
   color: var(--text);
@@ -471,6 +475,25 @@ main,
   gap: 18px 40px;
 }
 
+.profile-type-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.choice-card {
+  border: 1px solid #f3a65a;
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 13px;
+  color: #4a4a4a;
+  background: #fff7ef;
+}
+
 .form-grid label {
   font-size: 12px;
   text-transform: uppercase;
@@ -533,6 +556,37 @@ main,
 .animal-form .animal-right {
   display: grid;
   gap: 16px;
+}
+
+.vaccine-group {
+  border: 1px solid #f3a65a;
+  border-radius: 10px;
+  padding: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.vaccine-group legend {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: #4a4a4a;
+  padding: 0 6px;
+}
+
+.vaccine-list {
+  display: grid;
+  gap: 8px;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #4a4a4a;
+  text-transform: none;
+  letter-spacing: normal;
 }
 
 .visit-grid {
@@ -876,6 +930,13 @@ main,
   gap: 14px;
 }
 
+.animal-origin {
+  margin-top: 10px;
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+}
+
 .animal-media img {
   border-radius: 16px;
   box-shadow: var(--shadow);
@@ -911,6 +972,73 @@ main,
 .page-dot.is-active {
   background: #202020;
   color: #fff;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(19, 19, 19, 0.55);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  z-index: 50;
+}
+
+.modal-card {
+  width: min(680px, 100%);
+  max-height: 88vh;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 20px;
+  position: relative;
+  box-shadow: var(--shadow);
+}
+
+.modal-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  border: 0;
+  background: transparent;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  color: #777;
+}
+
+.modal-abrigo-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 14px 0 10px;
+}
+
+.modal-abrigo-header img {
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.modal-abrigo-info {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.modal-photos {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.modal-photos img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 @media (max-width: 900px) {
@@ -970,6 +1098,11 @@ main,
 
   .animal-grid {
     grid-template-columns: 1fr;
+  }
+
+  .profile-type-row,
+  .modal-photos {
+    grid-template-columns: 1fr 1fr;
   }
 
   .visit-grid {
@@ -1042,6 +1175,11 @@ main,
 
   .site-header {
     padding-top: 20px;
+  }
+
+  .modal-photos,
+  .profile-type-row {
+    grid-template-columns: 1fr;
   }
 
   .brand img {

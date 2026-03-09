@@ -82,6 +82,24 @@
                 <input type="text" name="localResgate" placeholder="Ex.: Rua das Flores, 123" required />
               </label>
               <label>
+                Origem do cadastro *
+                <select name="origemTipo" id="origemTipo" required>
+                  <option value="">Não selecionado</option>
+                  <option value="abrigo">Abrigo/ONG</option>
+                  <option value="individual">Pessoa física</option>
+                </select>
+              </label>
+              <label id="abrigoOrigemField" hidden>
+                Abrigo de origem *
+                <select name="abrigoOrigem" id="abrigoOrigem">
+                  <option value="">Selecione um abrigo</option>
+                </select>
+              </label>
+              <label id="origemIndividualField" hidden>
+                Nome da pessoa responsável *
+                <input type="text" name="origemNome" placeholder="Ex.: Ana Souza" />
+              </label>
+              <label>
                 Data do resgate *
                 <input type="date" name="dataResgate" required />
               </label>
@@ -94,14 +112,46 @@
                   <option value="grande">Grande</option>
                 </select>
               </label>
-              <label>
-                Vacinado *
-                <select name="vacinacao" required>  
-                  <option value="">Não selecionado</option>
-                  <option value="sim">Sim</option>
-                  <option value="nao">Não</option>
-                </select>             
-              </label>
+              <fieldset class="vaccine-group">
+                <legend>Vacinas até 1 ano *</legend>
+                <p class="form-note">Selecione as vacinas que o pet já recebeu.</p>
+                <div id="vacinasCachorro" class="vaccine-list" hidden>
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="vacinas" value="V8/V10 - 1ª dose" />
+                    <span>V8/V10 - 1ª dose</span>
+                  </label>
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="vacinas" value="V8/V10 - 2ª dose" />
+                    <span>V8/V10 - 2ª dose</span>
+                  </label>
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="vacinas" value="V8/V10 - 3ª dose" />
+                    <span>V8/V10 - 3ª dose</span>
+                  </label>
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="vacinas" value="Antirrabica" />
+                    <span>Antirrábica</span>
+                  </label>
+                </div>
+                <div id="vacinasGato" class="vaccine-list" hidden>
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="vacinas" value="V3/V4/V5 - 1ª dose" />
+                    <span>V3/V4/V5 - 1ª dose</span>
+                  </label>
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="vacinas" value="V3/V4/V5 - 2ª dose" />
+                    <span>V3/V4/V5 - 2ª dose</span>
+                  </label>
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="vacinas" value="V3/V4/V5 - reforço" />
+                    <span>V3/V4/V5 - reforço</span>
+                  </label>
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="vacinas" value="Antirrabica" />
+                    <span>Antirrábica</span>
+                  </label>
+                </div>
+              </fieldset>
             </div>
             <div class="animal-right">
               <label>
@@ -138,5 +188,3 @@
   <script type="module" src="script.js"></script>
 </body>
 </html>
-
-

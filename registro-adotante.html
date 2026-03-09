@@ -35,12 +35,26 @@
         <form id="adotanteForm" class="form-card" novalidate>
           <div class="form-section">
             <h2>Dados pessoais</h2>
+            <div class="profile-type-row" role="radiogroup" aria-label="Tipo de cadastro">
+              <label class="choice-card">
+                <input type="radio" name="tipoCadastro" value="individual" checked />
+                <span>Pessoa física</span>
+              </label>
+              <label class="choice-card">
+                <input type="radio" name="tipoCadastro" value="abrigo" />
+                <span>Abrigo/ONG</span>
+              </label>
+            </div>
             <div class="form-grid">
               <label>
                 Nome completo *
                 <input type="text" name="nome" placeholder="Ex.: João da Silva" required />
               </label>
-              <label>
+              <label class="campo-responsavel">
+                Nome do responsável *
+                <input type="text" name="responsavel" placeholder="Ex.: Maria Oliveira" />
+              </label>
+              <label id="generoField">
                 Gênero *
                 <select name="genero" required>
                   <option value="">Não selecionado</option>
@@ -49,24 +63,81 @@
                   <option value="outro">Outro</option>
                 </select>
               </label>
-              <label>
-                Data de nascimento *
+              <label id="dataField">
+                <span id="dataNascimentoLabel">Data de nascimento *</span>
                 <input type="date" name="nascimento" required />
               </label>
               <label>
                 Telefone/WhatsApp *
                 <input type="tel" name="telefone" placeholder="Ex.: (21) 91234-4567" required />
               </label>
-              <label>
+              <label id="cpfField">
                 CPF *
                 <input type="text" name="cpf" placeholder="Ex.: 123.456.789-00" required />
+              </label>
+              <label id="cnpjField" hidden>
+                CNPJ *
+                <input type="text" name="cnpj" placeholder="Ex.: 12.345.678/0001-90" />
               </label>
               <label>
                 Email *
                 <input type="email" name="email" placeholder="Ex.: joao@gmail.com" required />
               </label>
+              <label class="file-row" id="fotoPessoaField">
+                Foto da pessoa
+                <input type="file" name="fotoPessoa" accept="image/*" />
+              </label>
             </div>
             <p class="form-note">*Campo de preenchimento obrigatório</p>
+          </div>
+
+          <div class="form-divider"></div>
+
+          <div class="form-section" id="abrigoSection" hidden>
+            <h2>Informações do abrigo</h2>
+            <div class="form-grid">
+              <label>
+                Razão social *
+                <input type="text" name="razaoSocial" placeholder="Ex.: Associação Patinhas Felizes" />
+              </label>
+              <label>
+                Nome fantasia *
+                <input type="text" name="nomeFantasia" placeholder="Ex.: Abrigo Patinhas" />
+              </label>
+              <label>
+                Tipo da instituição *
+                <select name="tipoInstituicao">
+                  <option value="">Não selecionado</option>
+                  <option value="ong">ONG</option>
+                  <option value="abrigo_privado">Abrigo privado</option>
+                  <option value="projeto_social">Projeto social</option>
+                </select>
+              </label>
+              <label>
+                Capacidade aproximada de animais
+                <input type="number" min="0" name="capacidade" placeholder="Ex.: 45" />
+              </label>
+              <label>
+                Site ou rede social
+                <input type="url" name="site" placeholder="Ex.: https://instagram.com/meuabrigo" />
+              </label>
+              <label>
+                Licença/alvará
+                <input type="text" name="licenca" placeholder="Ex.: Alvará 0021/2026" />
+              </label>
+              <label>
+                Sobre o abrigo *
+                <textarea name="descricaoAbrigo" rows="4" placeholder="Conte brevemente sobre o espaço..."></textarea>
+              </label>
+              <label class="file-row">
+                Logo do abrigo
+                <input type="file" name="logoAbrigo" accept="image/*" />
+              </label>
+              <label class="file-row">
+                Fotos do abrigo
+                <input type="file" name="fotosAbrigo" accept="image/*" multiple />
+              </label>
+            </div>
           </div>
 
           <div class="form-divider"></div>
@@ -134,11 +205,10 @@
   <footer class="site-footer">
     <div class="container">
       <p>Desenvolvido por Laryssa Aguiar Menjon</p>
-      <p>Projeto abrigo ©2026</p>
+      <p>Projeto Eu Abrigo ©2026</p>
     </div>
   </footer>
 
   <script type="module" src="script.js"></script>
 </body>
 </html>
-

@@ -131,6 +131,31 @@ const formFeedback = document.querySelector("#formFeedback");
 const cadastrosList = document.querySelector("#cadastrosList");
 const animalForm = document.querySelector("#animalForm");
 const animalFeedback = document.querySelector("#animalFeedback");
+const tipoCadastroInputs = document.querySelectorAll("input[name='tipoCadastro']");
+const abrigoSection = document.querySelector("#abrigoSection");
+const cpfField = document.querySelector("#cpfField");
+const cnpjField = document.querySelector("#cnpjField");
+const generoFieldWrapper = document.querySelector("#generoField");
+const dataNascimentoLabel = document.querySelector("#dataNascimentoLabel");
+const fotoPessoaField = document.querySelector("#fotoPessoaField");
+const origemTipo = document.querySelector("#origemTipo");
+const abrigoOrigemField = document.querySelector("#abrigoOrigemField");
+const abrigoOrigemSelect = document.querySelector("#abrigoOrigem");
+const origemIndividualField = document.querySelector("#origemIndividualField");
+const tipoAnimalSelect = document.querySelector("#animalForm select[name='tipo']");
+const vacinasCachorro = document.querySelector("#vacinasCachorro");
+const vacinasGato = document.querySelector("#vacinasGato");
+const originBlock = document.querySelector("#animalOrigin");
+const originText = document.querySelector("#animalOriginText");
+const openAbrigoModalBtn = document.querySelector("#openAbrigoModal");
+const abrigoModal = document.querySelector("#abrigoModal");
+const closeAbrigoModalBtn = document.querySelector("#closeAbrigoModal");
+const abrigoModalNome = document.querySelector("#abrigoModalNome");
+const abrigoModalCidade = document.querySelector("#abrigoModalCidade");
+const abrigoModalDescricao = document.querySelector("#abrigoModalDescricao");
+const abrigoModalLogo = document.querySelector("#abrigoModalLogo");
+const abrigoModalInfo = document.querySelector("#abrigoModalInfo");
+const abrigoModalFotos = document.querySelector("#abrigoModalFotos");
 const visitaForm = document.querySelector("#visitaForm");
 const visitaFeedback = document.querySelector("#visitaFeedback");
 const visitaAnimal = document.querySelector("#visitaAnimal");
@@ -145,6 +170,129 @@ const agendarLink = document.querySelector("#agendarLink");
 
 function getFormData(form) {
   return Object.fromEntries(new FormData(form).entries());
+}
+
+function setFieldState(fieldWrapper, isVisible, isRequired) {
+  if (!fieldWrapper) return;
+  fieldWrapper.hidden = !isVisible;
+  const field = fieldWrapper.querySelector("input, select, textarea");
+  if (!field) return;
+  field.required = Boolean(isRequired);
+  field.disabled = !isVisible;
+  if (!isVisible) {
+    if (field.type === "file") {
+      field.value = "";
+    } else {
+      field.value = "";
+    }
+  }
+}
+
+function getCadastrosList() {
+  return JSON.parse(localStorage.getItem("adotantes") || "[]");
+}
+
+function getAbrigosList() {
+  return getCadastrosList().filter((item) => item.tipoCadastro === "abrigo");
+}
+
+function getSelectedTipoCadastro() {
+  return document.querySelector("input[name='tipoCadastro']:checked")?.value || "individual";
+}
+
+function toggleCadastroFields() {
+  if (!adotanteForm) return;
+  const tipo = getSelectedTipoCadastro();
+  const isAbrigo = tipo === "abrigo";
+  const generoField = adotanteForm.querySelector("select[name='genero']");
+  const nascimentoField = adotanteForm.querySelector("input[name='nascimento']");
+  const responsavelField = adotanteForm.querySelector(".campo-responsavel");
+
+  setFieldState(cpfField, !isAbrigo, !isAbrigo);
+  setFieldState(cnpjField, isAbrigo, isAbrigo);
+  setFieldState(fotoPessoaField, !isAbrigo, false);
+  if (abrigoSection) abrigoSection.hidden = !isAbrigo;
+  if (responsavelField) {
+    responsavelField.hidden = !isAbrigo;
+    const input = responsavelField.querySelector("input[name='responsavel']");
+    if (input) {
+      input.required = isAbrigo;
+      input.disabled = !isAbrigo;
+      if (!isAbrigo) input.value = "";
+    }
+  }
+
+  if (generoField) {
+    generoField.required = !isAbrigo;
+    generoField.disabled = isAbrigo;
+    if (isAbrigo) generoField.value = "";
+    if (generoFieldWrapper) generoFieldWrapper.hidden = isAbrigo;
+  }
+  if (nascimentoField) {
+    nascimentoField.required = true;
+    nascimentoField.disabled = false;
+    if (dataNascimentoLabel) {
+      dataNascimentoLabel.textContent = isAbrigo ? "Data de fundação *" : "Data de nascimento *";
+    }
+  }
+
+  const abrigoRequiredFields = ["razaoSocial", "nomeFantasia", "tipoInstituicao", "descricaoAbrigo"];
+  abrigoRequiredFields.forEach((name) => {
+    const field = adotanteForm.querySelector(`[name='${name}']`);
+    if (!field) return;
+    field.required = isAbrigo;
+    field.disabled = !isAbrigo;
+    if (!isAbrigo) field.value = "";
+  });
+
+  ["capacidade", "site", "licenca", "logoAbrigo", "fotosAbrigo"].forEach((name) => {
+    const field = adotanteForm.querySelector(`[name='${name}']`);
+    if (!field) return;
+    field.disabled = !isAbrigo;
+    if (!isAbrigo && field.type !== "file") field.value = "";
+    if (!isAbrigo && field.type === "file") field.value = "";
+  });
+}
+
+function populateAbrigoOptions() {
+  if (!abrigoOrigemSelect) return;
+  const abrigos = getAbrigosList();
+  abrigoOrigemSelect.innerHTML = '<option value="">Selecione um abrigo</option>' + abrigos
+    .map((abrigo) => {
+      const nome = abrigo.nomeFantasia || abrigo.nome || "Abrigo sem nome";
+      return `<option value="${nome}">${nome}</option>`;
+    })
+    .join("");
+}
+
+function toggleAnimalOriginFields() {
+  if (!animalForm) return;
+  const value = origemTipo?.value || "";
+  const isAbrigo = value === "abrigo";
+  setFieldState(abrigoOrigemField, isAbrigo, isAbrigo);
+  setFieldState(origemIndividualField, value === "individual", value === "individual");
+}
+
+function toggleVaccineFields() {
+  if (!animalForm) return;
+  const tipo = tipoAnimalSelect?.value || "";
+  const showCachorro = tipo === "cachorro";
+  const showGato = tipo === "gato";
+
+  if (vacinasCachorro) vacinasCachorro.hidden = !showCachorro;
+  if (vacinasGato) vacinasGato.hidden = !showGato;
+
+  const cachorroChecks = vacinasCachorro?.querySelectorAll("input[name='vacinas']") || [];
+  const gatoChecks = vacinasGato?.querySelectorAll("input[name='vacinas']") || [];
+
+  cachorroChecks.forEach((input) => {
+    if (!showCachorro) input.checked = false;
+    input.disabled = !showCachorro;
+  });
+  gatoChecks.forEach((input) => {
+    if (!showGato) input.checked = false;
+    input.disabled = !showGato;
+  });
 }
 
 function saveLocalCadastro(data, source) {
@@ -164,16 +312,25 @@ function renderCadastros() {
   cadastrosList.innerHTML = list
     .slice(0, 10)
     .map((item) => {
-      const nome = item.nome || "Sem nome";
+      const tipo = item.tipoCadastro === "abrigo" ? "Abrigo/ONG" : "Pessoa física";
+      const nome =
+        item.tipoCadastro === "abrigo"
+          ? (item.nomeFantasia || item.nome || "Abrigo sem nome")
+          : (item.nome || "Sem nome");
       const cidade = item.cidade || "-";
       const estado = item.estado || "-";
       const origem = item.source === "firebase" ? "Firebase" : "Local";
-      return `<li><strong>${nome}</strong> — ${cidade}/${estado} <span>(${origem})</span></li>`;
+      return `<li><strong>${nome}</strong> — ${cidade}/${estado} <span>(${tipo} • ${origem})</span></li>`;
     })
     .join("");
 }
 
 if (adotanteForm) {
+  tipoCadastroInputs.forEach((input) => {
+    input.addEventListener("change", toggleCadastroFields);
+  });
+  toggleCadastroFields();
+
   adotanteForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -184,6 +341,38 @@ if (adotanteForm) {
     }
 
     const data = getFormData(adotanteForm);
+    data.tipoCadastro = getSelectedTipoCadastro();
+
+    const fotoPessoaInput = adotanteForm.querySelector("input[name='fotoPessoa']");
+    const logoField = adotanteForm.querySelector("input[name='logoAbrigo']");
+    const fotosField = adotanteForm.querySelector("input[name='fotosAbrigo']");
+    if (data.tipoCadastro === "abrigo") {
+      if (logoField?.files?.[0]) {
+        data.logoAbrigo = await readFileAsDataURL(logoField.files[0]);
+      }
+      if (fotosField?.files?.length) {
+        data.fotosAbrigo = await readFilesAsDataURLs(fotosField.files);
+      } else {
+        data.fotosAbrigo = [];
+      }
+      delete data.fotoPessoa;
+    } else {
+      if (fotoPessoaInput?.files?.[0]) {
+        data.fotoPessoa = await readFileAsDataURL(fotoPessoaInput.files[0]);
+      }
+      delete data.cnpj;
+      delete data.razaoSocial;
+      delete data.nomeFantasia;
+      delete data.tipoInstituicao;
+      delete data.capacidade;
+      delete data.site;
+      delete data.licenca;
+      delete data.descricaoAbrigo;
+      delete data.logoAbrigo;
+      delete data.fotosAbrigo;
+      delete data.responsavel;
+    }
+
     try {
       await addDoc(collection(db, "adotantes"), {
         ...data,
@@ -193,6 +382,7 @@ if (adotanteForm) {
       formFeedback.textContent = "Cadastro enviado com sucesso!";
       formFeedback.style.color = "#2b6c2b";
       adotanteForm.reset();
+      toggleCadastroFields();
     } catch (error) {
       console.error(error);
       saveLocalCadastro(data, "local");
@@ -200,9 +390,23 @@ if (adotanteForm) {
         "Não foi possível enviar. Tente novamente em instantes.";
       formFeedback.style.color = "#b33a3a";
       adotanteForm.reset();
+      toggleCadastroFields();
     }
     renderCadastros();
+    populateAbrigoOptions();
   });
+}
+
+if (animalForm) {
+  populateAbrigoOptions();
+  if (origemTipo) {
+    origemTipo.addEventListener("change", toggleAnimalOriginFields);
+  }
+  if (tipoAnimalSelect) {
+    tipoAnimalSelect.addEventListener("change", toggleVaccineFields);
+  }
+  toggleAnimalOriginFields();
+  toggleVaccineFields();
 }
 
 function saveLocalAnimal(data, source) {
@@ -227,6 +431,15 @@ function renderLocalAnimais() {
     const raca = animal.raca || "SRD";
     const genero = animal.genero || "";
     const especie = animal.tipo || "cachorro";
+    const origemTipoAnimal = animal.origemTipo || "individual";
+    const origemNomeAnimal =
+      origemTipoAnimal === "abrigo"
+        ? (animal.origemNome || animal.abrigoOrigem || "Abrigo cadastrado")
+        : (animal.origemNome || "Cadastro online");
+    const origemLabel =
+      origemTipoAnimal === "abrigo"
+        ? `Abrigo: ${origemNomeAnimal}`
+        : `Origem: ${origemNomeAnimal}`;
     const foto =
       animal.foto ||
       (especie === "gato"
@@ -249,12 +462,14 @@ function renderLocalAnimais() {
     card.dataset.descricao =
       animal.descricao || "Animal cadastrado pela plataforma.";
     card.dataset.imagem = foto;
+    card.dataset.origemTipo = origemTipoAnimal;
+    card.dataset.origemNome = origemNomeAnimal;
 
     card.innerHTML = `
       <img src="${foto}" alt="${nome}" />
       <h3>${nome} - ${capitalize(idade)}</h3>
       <p>${raca}</p>
-      <p>Cadastro online</p>
+      <p>${origemLabel}</p>
       <span class="btn btn-teal pet-more-btn">Saber mais</span>
     `;
 
@@ -268,6 +483,10 @@ function renderLocalAnimais() {
 }
 
 function extractAnimalFromCard(card) {
+  const metaText = card.querySelectorAll("p")?.[1]?.textContent || "";
+  const origemTipo = card.dataset.origemTipo || (metaText.includes("Canil") ? "abrigo" : "");
+  const origemNome = card.dataset.origemNome || metaText.replace(/^Abrigo:\s*/i, "").trim();
+
   return {
     nome: card.dataset.nome || card.querySelector("h3")?.textContent || "",
     raca: card.dataset.raca || "SRD",
@@ -276,7 +495,9 @@ function extractAnimalFromCard(card) {
       "Este animal está aguardando uma família cheia de amor.",
     idade: card.dataset.idade || "adulto",
     especie: card.dataset.especie || "cachorro",
-    imagem: card.dataset.imagem || card.querySelector("img")?.getAttribute("src")
+    imagem: card.dataset.imagem || card.querySelector("img")?.getAttribute("src"),
+    origemTipo,
+    origemNome
   };
 }
 
@@ -385,6 +606,11 @@ function findAnimalByName(name) {
     (item) => normalizeKey(item.nome) === normalizeKey(name)
   );
   if (localMatch) {
+    const origemTipo = localMatch.origemTipo || "individual";
+    const origemNome =
+      origemTipo === "abrigo"
+        ? (localMatch.origemNome || localMatch.abrigoOrigem || "Abrigo cadastrado")
+        : (localMatch.origemNome || "Cadastro online");
     return {
       nome: localMatch.nome,
       raca: localMatch.raca || "SRD",
@@ -397,7 +623,9 @@ function findAnimalByName(name) {
         localMatch.foto ||
         (localMatch.tipo === "gato"
           ? "img/Rectangle 3 (3).png"
-          : "img/Rectangle 1.png")
+          : "img/Rectangle 1.png"),
+      origemTipo,
+      origemNome
     };
   }
 
@@ -429,9 +657,83 @@ function findAdotanteByName(name) {
   return list.find((item) => normalizeKey(item.nome) === normalizeKey(name)) || null;
 }
 
+function findAbrigoByName(name) {
+  if (!name) return null;
+  return getAbrigosList().find((item) => {
+    const principal = item.nomeFantasia || item.nome || "";
+    return normalizeKey(principal) === normalizeKey(name);
+  }) || null;
+}
+
+function formatAbrigoSummary(abrigo) {
+  if (!abrigo) return "Informações do abrigo não encontradas.";
+  const tipo = abrigo.tipoInstituicao ? `Tipo: ${abrigo.tipoInstituicao}` : "";
+  const doc = abrigo.cnpj ? `CNPJ: ${abrigo.cnpj}` : "";
+  const licenca = abrigo.licenca ? `Licença: ${abrigo.licenca}` : "";
+  return [tipo, doc, licenca].filter(Boolean).join(" • ") || "Informações legais não informadas.";
+}
+
+function fillAbrigoModal(abrigo) {
+  if (!abrigoModal || !abrigo) return;
+  const nome = abrigo.nomeFantasia || abrigo.nome || "Abrigo";
+  if (abrigoModalNome) abrigoModalNome.textContent = nome;
+  if (abrigoModalCidade) {
+    abrigoModalCidade.textContent = `${abrigo.cidade || "-"} / ${abrigo.estado || "-"}`;
+  }
+  if (abrigoModalDescricao) {
+    abrigoModalDescricao.textContent = abrigo.descricaoAbrigo || "Sem descrição disponível.";
+  }
+  if (abrigoModalInfo) {
+    abrigoModalInfo.textContent = formatAbrigoSummary(abrigo);
+  }
+  if (abrigoModalLogo) {
+    if (abrigo.logoAbrigo) {
+      abrigoModalLogo.src = abrigo.logoAbrigo;
+      abrigoModalLogo.hidden = false;
+    } else {
+      abrigoModalLogo.hidden = true;
+      abrigoModalLogo.removeAttribute("src");
+    }
+  }
+  if (abrigoModalFotos) {
+    const fotos = Array.isArray(abrigo.fotosAbrigo) ? abrigo.fotosAbrigo : [];
+    abrigoModalFotos.innerHTML = fotos
+      .slice(0, 6)
+      .map((src) => `<img src="${src}" alt="Foto do abrigo ${nome}" />`)
+      .join("");
+  }
+}
+
+function fillAbrigoModalFallback(animalData) {
+  const nomeOrigem = animalData?.origemNome || "Abrigo não informado";
+  if (abrigoModalNome) abrigoModalNome.textContent = nomeOrigem;
+  if (abrigoModalCidade) abrigoModalCidade.textContent = "- / -";
+  if (abrigoModalDescricao) {
+    abrigoModalDescricao.textContent =
+      "Este animal ainda não possui perfil completo do abrigo cadastrado.";
+  }
+  if (abrigoModalInfo) abrigoModalInfo.textContent = "Informações legais não informadas.";
+  if (abrigoModalLogo) {
+    abrigoModalLogo.hidden = true;
+    abrigoModalLogo.removeAttribute("src");
+  }
+  if (abrigoModalFotos) abrigoModalFotos.innerHTML = "";
+}
+
+function openAbrigoModal() {
+  if (!abrigoModal) return;
+  abrigoModal.hidden = false;
+}
+
+function closeAbrigoModal() {
+  if (!abrigoModal) return;
+  abrigoModal.hidden = true;
+}
+
 function renderAnimalDetail() {
   if (window.__animalLoaded) return;
   if (!animalTitle || !animalDesc || !animalImage) return;
+  closeAbrigoModal();
 
   const params = new URLSearchParams(window.location.search);
   const nameFromQuery = params.get("nome");
@@ -467,6 +769,35 @@ function renderAnimalDetail() {
     ).length;
     visitasCount.textContent = `Visitas agendadas: ${total}`;
   }
+
+  if (originBlock && originText) {
+    const origemTipoAnimal = data.origemTipo || "";
+    const origemNomeAnimal = data.origemNome || "";
+    if (origemTipoAnimal && origemNomeAnimal) {
+      originBlock.hidden = false;
+      originText.textContent =
+        origemTipoAnimal === "abrigo"
+          ? `Abrigo/ONG ${origemNomeAnimal}`
+          : `Pessoa física ${origemNomeAnimal}`;
+    } else {
+      originBlock.hidden = true;
+    }
+  }
+
+  const abrigoAssociado =
+    (data.origemTipo === "abrigo" && findAbrigoByName(data.origemNome)) || null;
+  if (openAbrigoModalBtn) {
+    openAbrigoModalBtn.hidden = false;
+    openAbrigoModalBtn.onclick = (event) => {
+      event.preventDefault();
+      if (abrigoAssociado) {
+        fillAbrigoModal(abrigoAssociado);
+      } else {
+        fillAbrigoModalFallback(data);
+      }
+      openAbrigoModal();
+    };
+  }
 }
 
 function readFileAsDataURL(file) {
@@ -476,6 +807,13 @@ function readFileAsDataURL(file) {
     reader.onerror = reject;
     reader.readAsDataURL(file);
   });
+}
+
+async function readFilesAsDataURLs(fileList) {
+  const files = Array.from(fileList || []);
+  if (files.length === 0) return [];
+  const results = await Promise.all(files.map((file) => readFileAsDataURL(file)));
+  return results.filter(Boolean);
 }
 
 if (animalForm) {
@@ -492,9 +830,24 @@ if (animalForm) {
 
     const formData = new FormData(animalForm);
     const data = Object.fromEntries(formData.entries());
+    const vacinasSelecionadas = formData.getAll("vacinas");
+    if (vacinasSelecionadas.length === 0) {
+      if (animalFeedback) {
+        animalFeedback.textContent = "Selecione ao menos uma vacina obrigatória.";
+        animalFeedback.style.color = "#b33a3a";
+      }
+      return;
+    }
+    data.vacinas = vacinasSelecionadas;
     const file = animalForm.querySelector("input[type='file']")?.files?.[0];
     if (file) {
       data.foto = await readFileAsDataURL(file);
+    }
+    if (data.origemTipo === "abrigo") {
+      data.origemNome = data.abrigoOrigem || "";
+    }
+    if (data.origemTipo !== "abrigo") {
+      delete data.abrigoOrigem;
     }
 
     try {
@@ -608,6 +961,26 @@ if (visitaForm) {
 
     visitaForm.reset();
     window.location.href = "agendamento-confirmado.html";
+  });
+}
+
+if (closeAbrigoModalBtn) {
+  closeAbrigoModalBtn.addEventListener("click", () => {
+    closeAbrigoModal();
+  });
+}
+
+if (abrigoModal) {
+  closeAbrigoModal();
+  abrigoModal.addEventListener("click", (event) => {
+    if (event.target === abrigoModal) {
+      closeAbrigoModal();
+    }
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeAbrigoModal();
+    }
   });
 }
 
