@@ -144,8 +144,10 @@ const abrigoOrigemField = document.querySelector("#abrigoOrigemField");
 const abrigoOrigemSelect = document.querySelector("#abrigoOrigem");
 const origemIndividualField = document.querySelector("#origemIndividualField");
 const tipoAnimalSelect = document.querySelector("#animalForm select[name='tipo']");
+const idadeAnimalSelect = document.querySelector("#animalForm select[name='idade']");
 const vacinasCachorro = document.querySelector("#vacinasCachorro");
 const vacinasGato = document.querySelector("#vacinasGato");
+const vacinasCalendarNote = document.querySelector("#vacinasCalendarNote");
 const originBlock = document.querySelector("#animalOrigin");
 const originText = document.querySelector("#animalOriginText");
 const openAbrigoModalBtn = document.querySelector("#openAbrigoModal");
@@ -285,25 +287,102 @@ function toggleAnimalOriginFields() {
   setFieldState(origemIndividualField, value === "individual", value === "individual");
 }
 
+const vaccineOptionsByTypeAndAge = {
+  cachorro: {
+    filhote: [
+      "V8/V10 - 1ª dose",
+      "V8/V10 - 2ª dose",
+      "V8/V10 - 3ª dose",
+      "Antirrabica"
+    ],
+    adulto: [
+      "V8/V10 - reforço anual",
+      "Antirrabica"
+    ],
+    senior: [
+      "V8/V10 - reforço anual",
+      "Antirrabica"
+    ]
+  },
+  gato: {
+    filhote: [
+      "V3/V4/V5 - 1ª dose",
+      "V3/V4/V5 - 2ª dose",
+      "V3/V4/V5 - reforço",
+      "Antirrabica"
+    ],
+    adulto: [
+      "V3/V4/V5 - reforço",
+      "Antirrabica"
+    ],
+    senior: [
+      "V3/V4/V5 - reforço",
+      "Antirrabica"
+    ]
+  }
+};
+
+function buildVaccineCheckboxes(options) {
+  return options
+    .map(
+      (value) =>
+        `<label class="checkbox-item">
+          <input type="checkbox" name="vacinas" value="${value}" />
+          <span>${value}</span>
+        </label>`
+    )
+    .join("");
+}
+
+function getVaccineOptions(tipo, idade) {
+  if (!tipo) return [];
+  const optionsByAge = vaccineOptionsByTypeAndAge[tipo] || {};
+  return optionsByAge[idade] || [];
+}
+
+function setVaccineNote(tipo, idade) {
+  if (!vacinasCalendarNote) return;
+  if (!tipo) {
+    vacinasCalendarNote.textContent = "Escolha o tipo de animal para ver as vacinas do calendário.";
+    return;
+  }
+  if (!idade) {
+    vacinasCalendarNote.textContent =
+      `Selecione a idade do ${tipo} para carregar as vacinas do calendário.`;
+    return;
+  }
+  vacinasCalendarNote.textContent =
+    `Selecione as vacinas de ${tipo} (${idade}) que já foram aplicadas conforme o calendário.`;
+}
+
 function toggleVaccineFields() {
   if (!animalForm) return;
   const tipo = tipoAnimalSelect?.value || "";
+  const idade = idadeAnimalSelect?.value || "";
   const showCachorro = tipo === "cachorro";
   const showGato = tipo === "gato";
 
-  if (vacinasCachorro) vacinasCachorro.hidden = !showCachorro;
-  if (vacinasGato) vacinasGato.hidden = !showGato;
+  if (vacinasCachorro) {
+    vacinasCachorro.hidden = !showCachorro;
+    vacinasCachorro.innerHTML = showCachorro ? buildVaccineCheckboxes(getVaccineOptions("cachorro", idade)) : "";
+  }
+  if (vacinasGato) {
+    vacinasGato.hidden = !showGato;
+    vacinasGato.innerHTML = showGato ? buildVaccineCheckboxes(getVaccineOptions("gato", idade)) : "";
+  }
+
+  setVaccineNote(tipo, idade);
 
   const cachorroChecks = vacinasCachorro?.querySelectorAll("input[name='vacinas']") || [];
   const gatoChecks = vacinasGato?.querySelectorAll("input[name='vacinas']") || [];
 
   cachorroChecks.forEach((input) => {
     if (!showCachorro) input.checked = false;
-    input.disabled = !showCachorro;
+    input.disabled = !showCachorro || !idade;
   });
   gatoChecks.forEach((input) => {
     if (!showGato) input.checked = false;
-    input.disabled = !showGato;
+    input.disabled = !showGato || !idade;
   });
 }
 
@@ -416,6 +495,9 @@ if (animalForm) {
   }
   if (tipoAnimalSelect) {
     tipoAnimalSelect.addEventListener("change", toggleVaccineFields);
+  }
+  if (idadeAnimalSelect) {
+    idadeAnimalSelect.addEventListener("change", toggleVaccineFields);
   }
   toggleAnimalOriginFields();
   toggleVaccineFields();
