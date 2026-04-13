@@ -43,6 +43,7 @@ const animalTitle = document.querySelector("#animalTitle");
 const animalDesc = document.querySelector("#animalDesc");
 const animalImage = document.querySelector("#animalImage");
 const animalThumbs = document.querySelector("#animalThumbs");
+const animalHealthList = document.querySelector("#animalHealthList");
 
 function ensureAmbientBackground() {
   if (!document.body) return;
@@ -162,11 +163,17 @@ const visitaAnimal = document.querySelector("#visitaAnimal");
 const visitaNome = document.querySelector("#visitaNome");
 const visitProfile = document.querySelector("#visitProfile");
 const visitProfileText = document.querySelector("#visitProfileText");
+const visitResponsavelNome = document.querySelector("#visitResponsavelNome");
+const visitResponsavelEndereco = document.querySelector("#visitResponsavelEndereco");
+const visitResponsavelTelefone = document.querySelector("#visitResponsavelTelefone");
 const whatsappActions = document.querySelector("#whatsappActions");
 const whatsUser = document.querySelector("#whatsUser");
 const whatsAdmin = document.querySelector("#whatsAdmin");
 const visitasCount = document.querySelector("#visitasCount");
 const agendarLink = document.querySelector("#agendarLink");
+const animalResponsavelNome = document.querySelector("#animalResponsavelNome");
+const animalResponsavelEndereco = document.querySelector("#animalResponsavelEndereco");
+const animalResponsavelTelefone = document.querySelector("#animalResponsavelTelefone");
 
 function getFormData(form) {
   return Object.fromEntries(new FormData(form).entries());
@@ -462,8 +469,13 @@ function renderLocalAnimais() {
     card.dataset.descricao =
       animal.descricao || "Animal cadastrado pela plataforma.";
     card.dataset.imagem = foto;
+    card.dataset.galeria = Array.isArray(animal.galeria) ? animal.galeria.join(" | ") : "";
     card.dataset.origemTipo = origemTipoAnimal;
     card.dataset.origemNome = origemNomeAnimal;
+    card.dataset.microchip = animal.microchip || "Não informado";
+    card.dataset.vacinas = Array.isArray(animal.vacinas) ? animal.vacinas.join(" | ") : "";
+    card.dataset.antipulgasVermes = animal.antipulgasVermes || "Não informado";
+    card.dataset.doencas = animal.doencas || "Nenhuma doença informada";
 
     card.innerHTML = `
       <img src="${foto}" alt="${nome}" />
@@ -484,8 +496,19 @@ function renderLocalAnimais() {
 
 function extractAnimalFromCard(card) {
   const metaText = card.querySelectorAll("p")?.[1]?.textContent || "";
-  const origemTipo = card.dataset.origemTipo || (metaText.includes("Canil") ? "abrigo" : "");
-  const origemNome = card.dataset.origemNome || metaText.replace(/^Abrigo:\s*/i, "").trim();
+  const origemTipo = card.dataset.origemTipo || (metaText ? "abrigo" : "");
+  const origemNome = card.dataset.origemNome || metaText
+    .replace(/^Abrigo:\s*/i, "")
+    .replace(/^Origem:\s*/i, "")
+    .trim();
+  const vacinas = (card.dataset.vacinas || "")
+    .split("|")
+    .map((item) => item.trim())
+    .filter(Boolean);
+  const galeria = (card.dataset.galeria || "")
+    .split("|")
+    .map((item) => item.trim())
+    .filter(Boolean);
 
   return {
     nome: card.dataset.nome || card.querySelector("h3")?.textContent || "",
@@ -496,8 +519,13 @@ function extractAnimalFromCard(card) {
     idade: card.dataset.idade || "adulto",
     especie: card.dataset.especie || "cachorro",
     imagem: card.dataset.imagem || card.querySelector("img")?.getAttribute("src"),
+    galeria,
     origemTipo,
-    origemNome
+    origemNome,
+    microchip: card.dataset.microchip || "Não informado",
+    vacinas,
+    antipulgasVermes: card.dataset.antipulgasVermes || "Não informado",
+    doencas: card.dataset.doencas || "Nenhuma doença informada"
   };
 }
 
@@ -599,6 +627,164 @@ const staticAnimals = [
   }
 ];
 
+const staticAnimalHealth = {
+  caramelo: {
+    microchip: "Sim",
+    vacinas: ["V8/V10 - 1ª dose", "V8/V10 - 2ª dose", "V8/V10 - 3ª dose", "Antirrabica"],
+    antipulgasVermes: "Sim, última dose em março/2026",
+    doencas: "Nenhuma doença diagnosticada"
+  },
+  cappuccino: {
+    microchip: "Não",
+    vacinas: ["V8/V10 - 1ª dose", "V8/V10 - 2ª dose"],
+    antipulgasVermes: "Aguardando próxima aplicação",
+    doencas: "Sem doenças; em observação por ser filhote"
+  },
+  estudante: {
+    microchip: "Não",
+    vacinas: ["V8/V10 - 1ª dose", "Antirrabica"],
+    antipulgasVermes: "Sim, feito no resgate",
+    doencas: "Dermatite leve em tratamento"
+  },
+  bidu: {
+    microchip: "Sim",
+    vacinas: ["V8/V10 - reforço anual", "Antirrabica"],
+    antipulgasVermes: "Sim, protocolo regular",
+    doencas: "Nenhuma doença atual"
+  },
+  bomdog: {
+    microchip: "Sim",
+    vacinas: ["V8/V10 - reforço anual", "Antirrabica"],
+    antipulgasVermes: "Sim, comprimido mensal",
+    doencas: "Alergia alimentar controlada"
+  },
+  lady: {
+    microchip: "Não",
+    vacinas: ["V8/V10 - 1ª dose", "V8/V10 - 2ª dose", "Antirrabica"],
+    antipulgasVermes: "Sim, última vermifugação em fevereiro/2026",
+    doencas: "Sem histórico de doença"
+  },
+  filosofo: {
+    microchip: "Sim",
+    vacinas: ["V8/V10 - reforço anual", "Antirrabica"],
+    antipulgasVermes: "Sim, em dia",
+    doencas: "Problema respiratório leve típico da raça"
+  },
+  mel: {
+    microchip: "Sim",
+    vacinas: ["V3/V4/V5 - reforço", "Antirrabica"],
+    antipulgasVermes: "Sim, pipeta mensal",
+    doencas: "Nenhuma"
+  },
+  biscoito: {
+    microchip: "Não",
+    vacinas: ["V3/V4/V5 - 1ª dose"],
+    antipulgasVermes: "Vermífugo aplicado; antipulgas pendente",
+    doencas: "Sem doenças"
+  },
+  garfield: {
+    microchip: "Não",
+    vacinas: ["V3/V4/V5 - 1ª dose", "V3/V4/V5 - 2ª dose", "Antirrabica"],
+    antipulgasVermes: "Sim, protocolo completo",
+    doencas: "Gengivite em acompanhamento veterinário"
+  }
+};
+
+function getStaticAnimalHealth(name) {
+  return staticAnimalHealth[normalizeKey(name || "")] || null;
+}
+
+const staticAnimalGallery = {
+  cappuccino: ["img/Rectangle 2 (3).png", "img/cappuccino-2.png"]
+};
+
+function getStaticAnimalGallery(name) {
+  return staticAnimalGallery[normalizeKey(name || "")] || [];
+}
+
+const staticAnimalContacts = {
+  "caramelo:cachorro": {
+    nome: "Abrigo Patas da Serra",
+    endereco: "Rua das Hortensias, 145 - Costa e Silva, Joinville/SC",
+    telefone: "(47) 98811-2201"
+  },
+  "cappuccino:cachorro": {
+    nome: "Cuidadora Ana Lemos",
+    endereco: "Servidao Sol Nascente, 58 - Vila Nova, Joinville/SC",
+    telefone: "(47) 99124-5508"
+  },
+  "estudante:cachorro": {
+    nome: "Lar Temporario Quatro Patas",
+    endereco: "Rua Augusto Schulz, 310 - America, Joinville/SC",
+    telefone: "(47) 99633-7402"
+  },
+  "bidu:cachorro": {
+    nome: "Abrigo Amigos do Bidu",
+    endereco: "Rua das Acacias, 72 - Bom Retiro, Joinville/SC",
+    telefone: "(47) 98901-3344"
+  },
+  "bomdog:cachorro": {
+    nome: "Instituto Focinho Feliz",
+    endereco: "Rua Miguel de Souza, 920 - Iririu, Joinville/SC",
+    telefone: "(47) 99770-1188"
+  },
+  "lady:cachorro": {
+    nome: "Cuidadora Bia Nogueira",
+    endereco: "Rua Pioneiros, 44 - Aventureiro, Joinville/SC",
+    telefone: "(47) 99218-6605"
+  },
+  "biscoito:cachorro": {
+    nome: "Casa de Passagem Novo Latido",
+    endereco: "Rua Professor Almeida, 201 - Saguaçu, Joinville/SC",
+    telefone: "(47) 99510-4426"
+  },
+  "filosofo:cachorro": {
+    nome: "ONG Patinhas Urbanas",
+    endereco: "Rua Dona Francisca, 1800 - Santo Antonio, Joinville/SC",
+    telefone: "(47) 99347-7700"
+  },
+  "mel:gato": {
+    nome: "Gatil Lua Clara",
+    endereco: "Rua dos Lirios, 87 - Anita Garibaldi, Joinville/SC",
+    telefone: "(47) 99826-1190"
+  },
+  "biscoito:gato": {
+    nome: "Cuidador Rafael Pinto",
+    endereco: "Rua das Palmeiras, 63 - Floresta, Joinville/SC",
+    telefone: "(47) 99177-2055"
+  },
+  "garfield:gato": {
+    nome: "Abrigo Miau e Cia",
+    endereco: "Rua Rio do Sul, 501 - Bucarein, Joinville/SC",
+    telefone: "(47) 99482-3311"
+  }
+};
+
+function getAnimalContactKey(name, especie) {
+  return `${normalizeKey(name || "")}:${normalizeKey(especie || "")}`;
+}
+
+function getStaticAnimalContact(name, especie) {
+  return staticAnimalContacts[getAnimalContactKey(name, especie)] || null;
+}
+
+function buildAnimalContact(data) {
+  const fallback = getStaticAnimalContact(data?.nome, data?.especie);
+  const nomeOrigem = data?.origemNome || "";
+
+  return {
+    nome: nomeOrigem || fallback?.nome || "Cuidador Independente (ficticio)",
+    endereco:
+      data?.localResgate ||
+      fallback?.endereco ||
+      "Endereco ficticio nao informado",
+    telefone:
+      data?.telefoneContato ||
+      fallback?.telefone ||
+      "(47) 90000-0000"
+  };
+}
+
 function findAnimalByName(name) {
   if (!name) return null;
   const localList = JSON.parse(localStorage.getItem("animais") || "[]");
@@ -624,8 +810,17 @@ function findAnimalByName(name) {
         (localMatch.tipo === "gato"
           ? "img/Rectangle 3 (3).png"
           : "img/Rectangle 1.png"),
+      galeria: Array.isArray(localMatch.galeria) ? localMatch.galeria : [],
       origemTipo,
-      origemNome
+      origemNome,
+      microchip: localMatch.microchip || "Não informado",
+      vacinas: Array.isArray(localMatch.vacinas) ? localMatch.vacinas : [],
+      antipulgasVermes: localMatch.antipulgasVermes || "Não informado",
+      doencas: localMatch.doencas || "Nenhuma doença informada",
+      localResgate: localMatch.localResgate || "",
+      cidade: localMatch.cidade || "",
+      estado: localMatch.estado || "",
+      telefoneContato: localMatch.telefoneContato || ""
     };
   }
 
@@ -730,6 +925,80 @@ function closeAbrigoModal() {
   abrigoModal.hidden = true;
 }
 
+function buildHealthSummary(data) {
+  const fallback = getStaticAnimalHealth(data?.nome);
+  const vacinas =
+    Array.isArray(data?.vacinas) && data.vacinas.length > 0
+      ? data.vacinas
+      : Array.isArray(fallback?.vacinas)
+        ? fallback.vacinas
+        : [];
+
+  return {
+    microchip: data?.microchip || fallback?.microchip || "Não informado",
+    vacinas: vacinas.length > 0 ? vacinas.join(", ") : "Não informado",
+    antipulgasVermes:
+      data?.antipulgasVermes || fallback?.antipulgasVermes || "Não informado",
+    doencas: data?.doencas || fallback?.doencas || "Nenhuma doença informada"
+  };
+}
+
+function renderHealthList(data) {
+  if (!animalHealthList) return;
+  const health = buildHealthSummary(data);
+  const items = [
+    { label: "Microchip", value: health.microchip },
+    { label: "Vacinas", value: health.vacinas },
+    { label: "Pulga e vermes", value: health.antipulgasVermes },
+    { label: "Doenças", value: health.doencas }
+  ];
+
+  animalHealthList.innerHTML = "";
+  items.forEach((item) => {
+    const li = document.createElement("li");
+    const strong = document.createElement("strong");
+    strong.textContent = `${item.label}: `;
+    li.appendChild(strong);
+    li.append(item.value);
+    animalHealthList.appendChild(li);
+  });
+}
+
+function buildAnimalGallery(data) {
+  const fromData =
+    Array.isArray(data?.galeria) && data.galeria.length > 0
+      ? data.galeria
+      : typeof data?.galeria === "string"
+        ? data.galeria
+          .split("|")
+          .map((item) => item.trim())
+          .filter(Boolean)
+        : [];
+  const fallback = getStaticAnimalGallery(data?.nome);
+  const base = data?.imagem ? [data.imagem] : [];
+  const merged = [...base, ...fromData, ...fallback]
+    .filter(Boolean)
+    .filter((value, index, arr) => arr.indexOf(value) === index);
+  return merged.length > 0 ? merged : ["img/Rectangle 1.png"];
+}
+
+function renderAnimalContactDetails(data) {
+  const contact = buildAnimalContact(data);
+  if (animalResponsavelNome) animalResponsavelNome.textContent = contact.nome;
+  if (animalResponsavelEndereco) animalResponsavelEndereco.textContent = contact.endereco;
+  if (animalResponsavelTelefone) animalResponsavelTelefone.textContent = `${contact.telefone} (ficticio)`;
+}
+
+function renderVisitContactInfo(animalName) {
+  if (!visitResponsavelNome || !visitResponsavelEndereco || !visitResponsavelTelefone) return;
+
+  const animalData = findAnimalByName(animalName) || { nome: animalName, especie: "" };
+  const contact = buildAnimalContact(animalData);
+  visitResponsavelNome.textContent = contact.nome;
+  visitResponsavelEndereco.textContent = contact.endereco;
+  visitResponsavelTelefone.textContent = `${contact.telefone} (ficticio)`;
+}
+
 function renderAnimalDetail() {
   if (window.__animalLoaded) return;
   if (!animalTitle || !animalDesc || !animalImage) return;
@@ -738,7 +1007,12 @@ function renderAnimalDetail() {
   const params = new URLSearchParams(window.location.search);
   const nameFromQuery = params.get("nome");
   const stored = JSON.parse(localStorage.getItem("animalSelecionado") || "null");
+  const storedMatchesQuery =
+    stored &&
+    nameFromQuery &&
+    normalizeKey(stored.nome) === normalizeKey(nameFromQuery);
   const data =
+    (storedMatchesQuery && stored) ||
     (nameFromQuery && findAnimalByName(nameFromQuery)) ||
     (stored && findAnimalByName(stored.nome)) ||
     stored ||
@@ -748,11 +1022,11 @@ function renderAnimalDetail() {
   animalDesc.textContent = data.descricao;
   animalImage.src = data.imagem;
   animalImage.alt = data.nome;
+  renderHealthList(data);
+  renderAnimalContactDetails(data);
 
   if (animalThumbs) {
-    const thumbs = [data.imagem, ...staticAnimals.map((item) => item.imagem)]
-      .filter((value, index, arr) => arr.indexOf(value) === index)
-      .slice(0, 4);
+    const thumbs = buildAnimalGallery(data).slice(0, 4);
     animalThumbs.innerHTML = thumbs
       .map((src) => `<img src="${src}" alt="${data.nome}" />`)
       .join("");
@@ -883,6 +1157,12 @@ if (visitaForm) {
   buildAnimalOptions();
   if (visitaAnimal && animalParam) {
     visitaAnimal.value = animalParam;
+  }
+  if (visitaAnimal) {
+    renderVisitContactInfo(visitaAnimal.value || animalParam || staticAnimals[0]?.nome);
+    visitaAnimal.addEventListener("change", () => {
+      renderVisitContactInfo(visitaAnimal.value);
+    });
   }
 
   if (visitaNome) {

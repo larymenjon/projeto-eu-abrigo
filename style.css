@@ -924,6 +924,18 @@ main,
   max-width: 520px;
 }
 
+.animal-health {
+  margin-top: 18px;
+}
+
+#animalHealthList {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  color: var(--muted);
+  display: grid;
+  gap: 6px;
+}
+
 .detail-actions {
   margin-top: 24px;
   display: flex;
