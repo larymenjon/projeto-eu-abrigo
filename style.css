@@ -429,6 +429,18 @@ main,
   color: var(--muted);
 }
 
+.footer-legal {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer-legal a {
+  text-decoration: underline;
+}
+
 .page-hero {
   padding: 60px 0 40px;
   text-align: center;

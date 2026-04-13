@@ -50,7 +50,7 @@
           </div>
           <div class="detail-actions">
             <a class="btn btn-teal" id="agendarLink" href="agendar-visita.html">Agendar visita</a>
-            <a class="btn btn-outline" href="#endereco">Endereço</a>
+            <button class="btn btn-outline" id="openEnderecoModal" type="button">Endereço</button>
             <button class="btn btn-outline" id="openAbrigoModal" type="button" hidden>Ver abrigo</button>
           </div>
           <p class="form-note" id="visitasCount">Visitas agendadas: 0</p>
@@ -59,7 +59,6 @@
           <img id="animalImage" src="img/Rectangle 22.png" alt="Bidu" />
           <div class="animal-thumbs" id="animalThumbs">
             <img src="img/Rectangle 22.png" alt="Bidu" />
-            <img src="img/bidu-2.png" alt="Bidu" />
           </div>
         </div>
       </div>
@@ -142,13 +141,28 @@
     </div>
   </div>
 
+  <div class="modal-overlay" id="enderecoModal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="enderecoModalTitle">
+      <button class="modal-close" id="closeEnderecoModal" type="button" aria-label="Fechar">×</button>
+      <h3 id="enderecoModalTitle">Endereço para visita</h3>
+      <p id="enderecoModalTexto">Endereço não informado.</p>
+      <p class="form-note" id="enderecoModalTelefone">Telefone: não informado.</p>
+    </div>
+  </div>
+
   <footer class="site-footer">
     <div class="container">
       <p>Desenvolvido por Laryssa Aguiar Menjon</p>
       <p>Projeto abrigo ©2026</p>
+      <div class="footer-legal">
+        <a href="politica-privacidade.html">Política de Privacidade</a>
+        <a href="termos-de-uso.html">Termos de Uso</a>
+        <a href="disclaimer.html">Disclaimer</a>
+      </div>
     </div>
   </footer>
 
   <script type="module" src="script.js"></script>
 </body>
 </html>
+

@@ -151,6 +151,11 @@ const originText = document.querySelector("#animalOriginText");
 const openAbrigoModalBtn = document.querySelector("#openAbrigoModal");
 const abrigoModal = document.querySelector("#abrigoModal");
 const closeAbrigoModalBtn = document.querySelector("#closeAbrigoModal");
+const openEnderecoModalBtn = document.querySelector("#openEnderecoModal");
+const enderecoModal = document.querySelector("#enderecoModal");
+const closeEnderecoModalBtn = document.querySelector("#closeEnderecoModal");
+const enderecoModalTexto = document.querySelector("#enderecoModalTexto");
+const enderecoModalTelefone = document.querySelector("#enderecoModalTelefone");
 const abrigoModalNome = document.querySelector("#abrigoModalNome");
 const abrigoModalCidade = document.querySelector("#abrigoModalCidade");
 const abrigoModalDescricao = document.querySelector("#abrigoModalDescricao");
@@ -925,6 +930,16 @@ function closeAbrigoModal() {
   abrigoModal.hidden = true;
 }
 
+function openEnderecoModal() {
+  if (!enderecoModal) return;
+  enderecoModal.hidden = false;
+}
+
+function closeEnderecoModal() {
+  if (!enderecoModal) return;
+  enderecoModal.hidden = true;
+}
+
 function buildHealthSummary(data) {
   const fallback = getStaticAnimalHealth(data?.nome);
   const vacinas =
@@ -987,6 +1002,12 @@ function renderAnimalContactDetails(data) {
   if (animalResponsavelNome) animalResponsavelNome.textContent = contact.nome;
   if (animalResponsavelEndereco) animalResponsavelEndereco.textContent = contact.endereco;
   if (animalResponsavelTelefone) animalResponsavelTelefone.textContent = `${contact.telefone} (ficticio)`;
+  if (enderecoModalTexto) {
+    enderecoModalTexto.textContent = `${contact.nome} - ${contact.endereco}`;
+  }
+  if (enderecoModalTelefone) {
+    enderecoModalTelefone.textContent = `Telefone: ${contact.telefone} (ficticio)`;
+  }
 }
 
 function renderVisitContactInfo(animalName) {
@@ -1070,6 +1091,13 @@ function renderAnimalDetail() {
         fillAbrigoModalFallback(data);
       }
       openAbrigoModal();
+    };
+  }
+
+  if (openEnderecoModalBtn) {
+    openEnderecoModalBtn.onclick = (event) => {
+      event.preventDefault();
+      openEnderecoModal();
     };
   }
 }
@@ -1249,6 +1277,11 @@ if (closeAbrigoModalBtn) {
     closeAbrigoModal();
   });
 }
+if (closeEnderecoModalBtn) {
+  closeEnderecoModalBtn.addEventListener("click", () => {
+    closeEnderecoModal();
+  });
+}
 
 if (abrigoModal) {
   closeAbrigoModal();
@@ -1257,9 +1290,21 @@ if (abrigoModal) {
       closeAbrigoModal();
     }
   });
+}
+if (enderecoModal) {
+  closeEnderecoModal();
+  enderecoModal.addEventListener("click", (event) => {
+    if (event.target === enderecoModal) {
+      closeEnderecoModal();
+    }
+  });
+}
+
+if (abrigoModal || enderecoModal) {
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       closeAbrigoModal();
+      closeEnderecoModal();
     }
   });
 }
