@@ -1,21 +1,27 @@
 # Security Policy
 
-## Supported Versions
+## Visão geral
+Este projeto é um site estático hospedado no GitHub Pages. Não há backend próprio ou armazenamento de dados sensíveis em servidor externo. A segurança do projeto depende principalmente de:
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+- manter o código-fonte em `UTF-8`;
+- evitar a inclusão de informações pessoais ou credenciais no repositório;
+- garantir que o branch `main` contém a versão publicada no GitHub Pages.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+## Suporte
+Este repositório não possui versões de suporte formal. O branch `main` é a versão ativa do site e deve ser o foco das atualizações.
 
-## Reporting a Vulnerability
+## Diretrizes de segurança
+- Não armazene senhas, tokens ou dados confidenciais em arquivos públicos.
+- Use a validação de entrada do lado do cliente apenas como suporte; não confie em dados externos.
+- Não envie informações de cartões de crédito, CPFs ou dados pessoais sensíveis via formulários deste projeto.
+- Revise alterações em `script.js`, `index.html`, `style.css` e arquivos de formulário antes do deploy.
 
-Use this section to tell people how to report a vulnerability.
+## Relato de vulnerabilidades
+Para relatar um problema de segurança, abra uma issue no repositório e inclua as seguintes informações:
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+- descrição do problema;
+- passos para reproduzir;
+- impacto esperado;
+- ambiente em que foi observado.
+
+Se preferir, marque a issue com a palavra-chave `security` para facilitar a triagem.
